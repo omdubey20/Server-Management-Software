@@ -1,0 +1,619 @@
+<USER_REQUEST>
+# STRICT ENTERPRISE CMS QA AUDIT
+## Sales Lead Machine | Complete Page-by-Page, Section-by-Section, Field-by-Field Functional Testing
+
+You are acting as a **Senior QA Automation Engineer, CMS Testing Specialist, Frontend Engineer and Database Verification Engineer**.
+
+Your assignment is to conduct a COMPLETE END-TO-END FUNCTIONAL AUDIT of my existing Sales Lead Machine website and its Enterprise CMS.
+
+This is NOT a code review alone.
+
+This is NOT a visual inspection alone.
+
+This is NOT a test where you open one page, edit one heading, see it working and declare the entire CMS functional.
+
+I want you to physically test the actual application, using its running frontend, admin panel, Visual Studio editor, backend APIs and PostgreSQL database.
+
+Your responsibility is to establish whether EVERY page, EVERY frontend section and EVERY individual editing control works correctly.
+
+Do not assume functionality exists simply because a button, input field, API endpoint or editor control exists in the source code.
+
+**If you cannot demonstrate that an operation actually works, mark it UNVERIFIED. Never mark it PASS based on assumptions.**
+
+---
+
+# PHASE 0: UNDERSTAND THE EXISTING APPLICATION
+
+Before testing anything:
+
+1. Inspect the complete project structure.
+2. Understand how the frontend website is rendered.
+3. Understand how the admin panel works.
+4. Understand how the Pages module communicates with the backend.
+5. Understand how the Visual Studio editor identifies frontend sections.
+6. Understand how CMS data is stored in PostgreSQL.
+7. Understand the relationship between:
+   - `pages`
+   - `page_sections`
+   - `draft_data`
+   - `data`
+   - `cms-hydrate.js`
+   - `form-bridge.js`
+8. Understand how publishing, drafts and frontend hydration work.
+9. Identify how team members, company information, logos and media are managed.
+10. Identify which frontend elements are CMS-editable and which are intentionally static.
+
+Read the actual implementation before performing tests.
+
+Do not redesign the existing architecture.
+
+Do not replace working components with new implementations.
+
+Do not remove existing features.
+
+Do not assume every page uses the same Elementor structure.
+
+---
+
+# PHASE 1: CREATE A COMPLETE WEBSITE INVENTORY
+
+Visit the actual frontend website.
+
+Discover EVERY publicly accessible page, including dynamically generated routes.
+
+Start with these known routes, but do not limit the audit to them:
+
+- /
+- /about-us/
+- /build-a-b2b-gtm-foundation/
+- /chrome-extension/
+- /close-opportunities-efficiently/
+- /contact-sales/
+- /contact-us/
+- /data-enrichment/
+- /data/
+- /email-verification/
+- /engage-target-accounts/
+- /expand-retain-customers/
+- /find-in-market-accounts/
+- /for-business-services/
+- /for-customer-success/
+- /for-enterprise/
+- /for-financial-services/
+- /for-manufacturing/
+- /for-marketer/
+- /for-sales/
+- /for-technology/
+- /intent-data/
+- /platform-and-products/
+- /privacy-policy/
+- /problems-we-solve/
+- /prospector/
+- /service-categories/technographics/
+- /start-your-free-trial/
+- /survey/
+- /terms-and-conditions/
+- /watch-a-demo/
+
+For EVERY page:
+
+1. Open the actual public URL.
+2. Confirm it loads.
+3. Inspect its complete DOM.
+4. Scroll from top to bottom.
+5. Identify every visible section.
+6. Record section order.
+7. Record section type.
+8. Record its heading, description, images, buttons, cards and other content.
+9. Identify whether the section is editable through the CMS.
+10. Identify whether the section is global/shared or page-specific.
+
+Create a complete page inventory.
+
+Do not stop after finding 31 pages. Discover any additional routes.
+
+---
+
+# PHASE 2: MAP EVERY FRONTEND SECTION TO THE CMS
+
+This is one of the most important parts.
+
+For EVERY page:
+
+1. Open the admin panel.
+2. Navigate to Pages.
+3. Open the corresponding page.
+4. Launch Visual Studio.
+5. Select the first frontend section.
+6. Observe which section is highlighted.
+7. Compare the highlighted frontend element with the section shown in the inspector.
+8. Verify that the selected section has the correct CMS record.
+9. Check its section type and stored data.
+10. Repeat this for EVERY section on that page.
+
+Continue until every section on every page has been inspected.
+
+Specifically verify:
+
+- Hero sections
+- Split sections
+- Card grids
+- CTA banners
+- Rich-text sections
+- Team sections
+- Logo walls
+- Any other custom or Elementor-generated sections
+
+Do not assume that the seven currently supported section types represent every section on the website.
+
+Identify unsupported section types separately.
+
+### Section mapping failures to look for
+
+- Wrong frontend section selected.
+- Multiple sections mapped to one CMS record.
+- One section mapped to multiple records.
+- Incorrect section ordering.
+- Sections missing from the inspector.
+- Duplicate sections.
+- Sections that cannot be selected.
+- Sections incorrectly identified as another type.
+- Incorrect fallback mapping.
+- Hidden sections appearing as visible.
+- Visible sections incorrectly marked hidden.
+
+Produce a page-by-page section mapping report.
+
+---
+
+# PHASE 3: ACTUALLY TEST EVERY EDITABLE FIELD
+
+This is where I want the most thorough testing.
+
+For EVERY editable section on EVERY page, inspect EVERY available control individually.
+
+Do not test only the heading and assume the other fields work.
+
+For each section, test all applicable controls.
+
+### A. Text fields
+
+- Main heading
+- Subtitle
+- Description
+- Supporting paragraph
+- Rich-text content
+- Labels
+- Eyebrow text
+- Card titles
+- Card descriptions
+- Button labels
+- Other editable text fields
+
+Test:
+1. Change the original value to a unique temporary test value.
+2. Save the draft.
+3. Refresh the admin page.
+4. Reopen the section.
+5. Verify that the value persisted.
+6. Publish the change in the isolated test environment.
+7. Open the actual public page.
+8. Verify that the correct frontend element displays the new value.
+9. Verify that unrelated text remains unchanged.
+10. Restore the original value and verify restoration.
+
+Also test empty values, whitespace and special characters where appropriate.
+
+### B. Images
+
+For EVERY editable image control:
+
+1. Open the image selector.
+2. Verify that the existing image is displayed correctly.
+3. Select a different test image.
+4. Save the draft.
+5. Refresh.
+6. Verify the selected image persists.
+7. Publish in the test environment.
+8. Verify the actual frontend displays the replacement image.
+9. Check image dimensions, aspect ratio and cropping.
+10. Restore the original image.
+
+Test image replacement separately from image selection.
+
+### C. Buttons and links
+
+For EVERY button:
+
+- Button text
+- Button URL
+- Link target
+- Button visibility
+- Button styling, if editable
+
+Change the label and URL independently.
+
+Verify both the inspector and actual frontend.
+
+Test both buttons in sections that contain multiple CTAs.
+
+Do not test only the first button.
+
+### D. Card grids and repeaters
+
+For EVERY card or repeater section:
+
+- Edit each card's title.
+- Edit each description.
+- Change each image.
+- Change each destination URL.
+- Add a card.
+- Remove a card.
+- Reorder cards, if supported.
+- Save and refresh.
+- Verify the exact frontend output.
+
+Test every card individually.
+
+Do not assume that the first card working means the remaining cards work.
+
+### E. Other section controls
+
+Test all available controls for:
+
+- Backgrounds
+- Layout settings
+- Alignment
+- Visibility
+- Spacing
+- Section order
+- Team member selection
+- Logo selection
+- Repeater fields
+- Rich-text formatting
+
+If a control exists in the editor, it must be tested.
+
+If a control is intentionally unsupported, document that clearly.
+
+---
+
+# PHASE 4: DRAFT, SAVE AND PUBLISH TESTING
+
+For EVERY page and EVERY editable section:
+
+1. Make a temporary change.
+2. Save as draft.
+3. Refresh the browser.
+4. Reopen the page.
+5. Verify that the draft is retained.
+6. Verify that the public frontend has not changed before publishing.
+7. Publish the page.
+8. Open the actual public frontend.
+9. Verify the published content.
+10. Refresh the frontend.
+11. Verify that the published change remains.
+12. Restore the original content.
+13. Verify that restoration also persists.
+
+Test these situations separately:
+
+- Saving one section.
+- Saving multiple sections.
+- Saving an empty field.
+- Discarding a draft.
+- Reopening an unfinished draft.
+- Publishing after multiple edits.
+- Refreshing during editing.
+- Navigating away and returning.
+- Editing one section without affecting another.
+- Editing one page without affecting another page.
+
+Check for accidental publishing of drafts.
+
+Check for stale cached content.
+
+Check whether the editor and public website display different data after publishing.
+
+---
+
+# PHASE 5: VISUAL STUDIO EDITOR FUNCTIONALITY
+
+Test the actual Visual Studio interface.
+
+Verify:
+
+1. Canvas loads correctly.
+2. Sections can be selected.
+3. Selected sections receive the correct highlight.
+4. Inspector displays the correct section data.
+5. Inspector controls correspond to the selected section.
+6. Switching sections updates the inspector.
+7. Accordion panels open and close.
+8. Inputs remain usable.
+9. Rich-text editing works.
+10. Native HTML editing works where available.
+11. Save and publish actions work.
+12. Scrolling inside the inspector does not unintentionally scroll the canvas.
+13. Canvas scrolling works independently.
+14. Editor controls do not overlap or disappear.
+15. No JavaScript errors occur during normal editing.
+
+Test on multiple pages, including pages with complex Elementor layouts.
+
+---
+
+# PHASE 6: GLOBAL CMS MODULES
+
+Test each module separately.
+
+### Team & Leaders
+- Create a test member.
+- Edit existing members.
+- Replace profile images.
+- Change names, roles and descriptions.
+- Reorder members.
+- Delete the test member.
+- Verify frontend synchronization.
+
+### Company
+- Edit company information.
+- Save.
+- Refresh.
+- Verify persistence.
+- Verify frontend synchronization.
+
+### Logos
+- Add a test logo.
+- Replace an existing logo.
+- Change its destination URL if supported.
+- Reorder logos.
+- Remove the test logo.
+- Verify frontend synchronization.
+
+### Media
+- Upload an image.
+- Preview it.
+- Replace it.
+- Delete a test asset.
+- Test unsupported formats.
+- Test file-size restrictions.
+- Verify correct media references in pages.
+
+### Pages
+- Create a test page if supported.
+- Edit page metadata.
+- Change its slug in a safe test environment.
+- Verify page persistence.
+- Delete only the test page.
+- Verify that unrelated pages remain unaffected.
+
+The Leads module is outside this CMS audit scope. Do not spend time redesigning or expanding it.
+
+Public website forms should only be checked for integration compatibility where they affect the website.
+
+---
+
+# PHASE 7: FRONTEND VISUAL REGRESSION
+
+For EVERY page, inspect:
+
+- Desktop layout.
+- Tablet layout.
+- Mobile layout.
+- Header.
+- Navigation.
+- Hero section.
+- Every content section.
+- Footer.
+- Images.
+- Buttons.
+- Typography.
+- Spacing.
+- Section backgrounds.
+- Responsive behavior.
+
+Compare the page before and after CMS editing.
+
+Verify that changing content does not:
+
+- Break the layout.
+- Remove Elementor styling.
+- Change unrelated sections.
+- Cause duplicate content.
+- Cause missing images.
+- Break button destinations.
+- Introduce horizontal scrolling.
+- Break mobile responsiveness.
+
+Pay particular attention to selector collisions and Elementor-generated markup.
+
+---
+
+# PHASE 8: DATABASE AND BACKEND VERIFICATION
+
+For each successful editing operation, verify the corresponding database state.
+
+Check:
+
+- Correct page ID.
+- Correct section ID.
+- Correct page association.
+- Correct draft data.
+- Correct published data.
+- Correct section order.
+- Correct visibility state.
+- Correct image references.
+- Correct timestamps.
+- Correct user attribution where implemented.
+
+Verify that the frontend actually receives the expected published data.
+
+Do not rely only on HTTP 200 responses.
+
+Verify the actual response body and rendered result.
+
+---
+
+# PHASE 9: FAILURE AND EDGE-CASE TESTING
+
+Test:
+
+- Empty text.
+- Very long text.
+- Special characters.
+- Unicode characters.
+- Multiple consecutive saves.
+- Browser refresh during editing.
+- Backend unavailable during save.
+- Database unavailable during save.
+- Invalid image upload.
+- Missing image.
+- Invalid URL.
+- Duplicate section data.
+- Missing section data.
+- Unauthorized editing.
+- Session expiration.
+- Two users editing the same page, if supported.
+
+Use only safe, isolated test data.
+
+Do not intentionally damage the live database.
+
+---
+
+# PHASE 10: TEST SAFETY AND DATA PRESERVATION
+
+Before making any changes:
+
+1. Identify the current environment.
+2. Confirm whether it is local, staging or production.
+3. Back up the relevant database.
+4. Preserve original page and section data.
+5. Create a dedicated test page or isolated test database if possible.
+6. Record original values before testing.
+
+IMPORTANT:
+
+Never overwrite real website content without a verified restoration path.
+
+Never delete real pages, existing team members, real logos or production media during testing.
+
+Never publish temporary test content to the public production website.
+
+If isolated testing is unavailable, mark destructive or publishing tests BLOCKED and request a safe environment.
+
+Restore every temporary change after its test.
+
+Verify restoration against the original values.
+
+---
+
+# PHASE 11: FINAL REPORT
+
+I want a comprehensive report, not a generic summary.
+
+Create the following files:
+
+1. `COMPLETE_CMS_QA_REPORT.md`
+2. `PAGE_BY_PAGE_AUDIT.csv`
+3. `SECTION_MAPPING_AUDIT.csv`
+4. `FIELD_LEVEL_TEST_RESULTS.csv`
+5. `VISUAL_REGRESSION_REPORT.md`
+6. `CMS_BUGS_AND_FIXES.md`
+7. `TEST_EVIDENCE/`
+
+### Required result format
+
+For each individual test, record:
+
+| Field | Required information |
+|---|---|
+| Page | Exact page name and URL |
+| Section | Exact frontend section |
+| Section type | Actual section type |
+| Control | Exact editable field |
+| Original value | Original content or safe reference |
+| Test action | What was changed |
+| Draft result | PASS / FAIL / BLOCKED |
+| Persistence | PASS / FAIL / BLOCKED |
+| Published result | PASS / FAIL / BLOCKED |
+| Frontend result | PASS / FAIL / BLOCKED |
+| Restoration | PASS / FAIL / BLOCKED |
+| Evidence | Screenshot, API response or DB verification |
+| Bug | Exact problem, if any |
+
+Use these statuses:
+
+- PASS: Actually tested and verified.
+- FAIL: Tested and did not work.
+- BLOCKED: Could not test because of a missing dependency or environment limitation.
+- UNVERIFIED: Only inspected statically or inferred from code.
+
+Never convert UNVERIFIED into PASS.
+
+### Final summary must include
+
+- Total pages discovered.
+- Total pages tested.
+- Total frontend sections discovered.
+- Total sections mapped correctly.
+- Total editable controls discovered.
+- Total individual controls tested.
+- Total successful edits.
+- Total failed edits.
+- Total blocked tests.
+- Total unverified tests.
+- Number of restoration failures.
+- Number of frontend rendering issues.
+- Number of database persistence issues.
+- Number of critical, high, medium and low bugs.
+
+Provide actual screenshots and evidence wherever possible.
+
+Do not invent test counts.
+
+Do not claim 100% functionality based on partial testing.
+
+---
+
+# EXECUTION RULES
+
+1. Work systematically, page by page.
+2. Finish one page's complete section and field audit before moving to the next.
+3. Do not skip complex pages.
+4. Do not stop after testing the homepage.
+5. Do not test only one section per page.
+6. Do not test only one field per section.
+7. Do not substitute static code analysis for actual browser testing.
+8. Do not modify code simply to make tests pass.
+9. Record every failure before fixing anything.
+10. After approved fixes, rerun the failed tests and relevant regression tests.
+11. Keep a persistent progress log so the audit can resume without repeating completed tests.
+12. If browser automation is unavailable, explicitly report that limitation instead of pretending to have performed browser tests.
+
+## MOST IMPORTANT INSTRUCTION
+
+I am not asking you to tell me whether the CMS architecture looks good.
+
+I am asking you to prove whether the existing CMS actually works across the entire website.
+
+I want to know whether I can open ANY page, select ANY supported section, edit ANY available field, save it, publish it and see the correct result on the actual frontend.
+
+Test the entire website, not a sample.
+
+**Do not declare this project production-ready until the evidence supports that conclusion.**
+
+Begin with Phase 0. Complete each phase methodically and maintain the audit progress log. Do not jump directly to a final score.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-11-04T19:47:46+05:30.
+
+The user's current state is as follows:
+Other open documents:
+- /Users/liluzi/Desktop/python/salesleadmachine-revamp/tests/run_enterprise_qa_audit.py (LANGUAGE_UNSPECIFIED)
+- /Users/liluzi/Desktop/python/server-management-system/salesleadmachine-revamp/cms-hydrate.js (LANGUAGE_UNSPECIFIED)
+- /Users/liluzi/Desktop/python/server-management-system/salesleadmachine-revamp/server.py (LANGUAGE_UNSPECIFIED)
+- /Users/liluzi/Desktop/python/server-management-system/salesleadmachine-revamp/term_condition.html (LANGUAGE_UNSPECIFIED)
+- /Users/liluzi/Desktop/python/server-management-system/salesleadmachine-revamp/privacy_policy.html (LANGUAGE_UNSPECIFIED)
+</ADDITIONAL_METADATA>
